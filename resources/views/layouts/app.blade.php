@@ -26,7 +26,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="https://thumb.tildacdn.com/tild3461-6330-4539-b637-643431633765/-/resize/40x/-/format/webp/trophy_3.png" width="34" height="34">
+                <img src="{{url('trophy_3.webp')}}" width="34" height="34">
                 {{ config('app.name', 'Tournaman') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -40,7 +40,7 @@
                     <li class="nav-item">
                         <a href="{{ url('/events/add') }}"
                            class="nav-link">
-                            Add Tournament
+                            {{ __('messages.Add Tournament') }}
                         </a>
                     </li>
                 {{--                        <li class="nav-item">
@@ -59,13 +59,13 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
                             </li>
                         @endif
                     @else
@@ -97,6 +97,52 @@
             @yield('content')
         </div>
     </main>
+    <div class="container">
+        <footer class="py-5">
+            <div class="row">
+
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-6 text-right">
+                        <strong>{{ __('messages.slectLanguage') }}: </strong>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="changeLang"  onChange="changeLang('changeLang');" class="form-control changeLang">
+                            <option value="en" {{ session()->get('locale') == 'en' ? 'selected' : '' }}>English</option>
+                            <option value="ru" {{ session()->get('locale') == 'ru' ? 'selected' : '' }}>Russian</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between py-4 my-4 border-top">
+                <p>&copy; <?php echo date("Y"); ?> Tournaman,  {{__('messages.All rights reserved')}}.</p>
+                <ul class="list-unstyled d-flex">
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+                    <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
 </div>
 </body>
+<script type="text/javascript">
+
+
+</script>.
+
+<script type="text/javascript">
+
+    var url = "{{ route('changeLang') }}";
+
+
+    function changeLang(){
+        var element = document.getElementById('changeLang');
+        window.location.href = url + "?lang="+ element.value;
+
+
+    }
+</script>
 </html>

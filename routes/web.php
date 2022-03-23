@@ -6,9 +6,13 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventCommentController;
+use App\Http\Controllers\LangController;
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('lang/home', [LangController::class, 'index']);
+Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/events', [EventController::class, 'index']);
