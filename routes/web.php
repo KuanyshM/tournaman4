@@ -14,6 +14,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('lang/home', [LangController::class, 'index']);
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('roles', \App\Http\Controllers\RoleController::class);
+    Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
+    Route::resource('posts', \App\Http\Controllers\PostController::class);
+});
+
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/events', [EventController::class, 'index']);
 
