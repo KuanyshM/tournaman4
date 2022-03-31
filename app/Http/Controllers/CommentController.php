@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\EventComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -12,7 +13,7 @@ class CommentController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function create()
     {
         $comment = new Comment();
@@ -26,7 +27,8 @@ class CommentController extends Controller
 
     public function delete($id)
     {
-        $comment = Comment::find($id);
+        $comment = EventComment::find($id);
+        //$comment->author_id;
         if(Gate::allows('comment-delete', $comment) ) {
             $comment->delete();
             return back();

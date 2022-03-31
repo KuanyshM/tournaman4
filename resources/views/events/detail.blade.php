@@ -21,10 +21,12 @@
                     <p class="card-text">
                         {{ $event->body }}
                     </p>
-                    <a href="{{ url("/events/delete/$event->id") }}"
-                        class="btn btn-warning">
-                        Delete
-                    </a>
+                    @can('event-delete')
+                        <a href="{{ url("/events/delete/$event->id") }}"
+                           class="btn btn-warning">
+                            {{ __('messages.Delete') }}
+                        </a>
+                    @endcan
                 </div>
             </div>
 
@@ -34,9 +36,11 @@
                 </li>
                 @foreach ($event->comments as $comment)
                     <li class="list-group-item">
-                        <a href="{{ url("/comments/delete/$comment->id") }}"
-                            class="btn-close float-end">
-                        </a>
+                        @if(Gate::allows('comment-delete', $comment) )
+                            <a href="{{ url("/comments/delete/$comment->id") }}"
+                               class="btn-close float-end">
+                            </a>
+                        @endif
                         {{ $comment->content }}
                         <div class="small mt-2">
                             By <b>{{ $comment->user->name }}</b>,
@@ -51,7 +55,7 @@
                     @csrf
                     <input type="hidden" name="event_id"
                         value="{{ $event->id }}">
-                    <textarea name="content" class="form-control mb-2" placeholder="New Event Comment"></textarea>
+                    <textarea required name="content" class="form-control mb-2" placeholder="New Event Comment"></textarea>
 
                     <input type="submit" value="Add Event Comment" class="btn btn-secondary">
                 </form>
