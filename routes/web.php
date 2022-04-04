@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', \App\Http\Controllers\RoleController::class);
     Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
     Route::resource('posts', \App\Http\Controllers\PostController::class);
+    Route::resource('organizations', \App\Http\Controllers\OrganizationController::class);
 });
 
 Route::get('/articles', [ArticleController::class, 'index']);

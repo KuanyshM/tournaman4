@@ -35,6 +35,10 @@ class PermissionTableSeeder extends Seeder
             'event-create',
             'event-edit',
             'event-delete',
+            'organization-list',
+            'organization-create',
+            'organization-edit',
+            'organization-delete',
 
         ];
 
