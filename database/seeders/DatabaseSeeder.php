@@ -33,13 +33,13 @@ class DatabaseSeeder extends Seeder
             "name" => "Alice",
             "email" => "alice@gmail.com",
             'password' => Hash::make("password"),
-            'organization' => 1,
+            'organization_id' => 1,
         ]);
         User::factory()->create([
             "name" => "Bob",
             "email" => "bob@gmail.com",
             'password' => Hash::make("password"),
-            'organization' => 2,
+            'organization_id' => 2,
         ]);
     }
 }

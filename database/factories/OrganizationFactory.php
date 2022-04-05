@@ -15,7 +15,7 @@ class OrganizationFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->title,
             'verified' => $this->faker->boolean,
         ];
     }
