@@ -9,10 +9,13 @@
         @endif
         <div class="card">
             <div class="card-header">Organizations
-                @if(Gate::allows('organization-create', $comment))
+                @if(Gate::allows('organization-create'))
                 @endif
                 @can('organization-create')
                     <span class="float-right">
+                        @if( auth()->user()->can("settings-list"))
+                            <a class="btn btn-secondary" href="{{ route('settings.index') }}">Settings</a>
+                        @endif
                         <a class="btn btn-primary" href="{{ route('organizations.create') }}">Add Organization</a>
                     </span>
                 @endcan

@@ -11,6 +11,9 @@
             <div class="card-header">Permissions
                 @can('role-create')
                     <span class="float-right">
+                        @if( auth()->user()->can("settings-list"))
+                            <a class="btn btn-secondary" href="{{ route('settings.index') }}">Settings</a>
+                        @endif
                         <a class="btn btn-primary" href="{{ route('permissions.create') }}">New Permission</a>
                     </span>
                 @endcan

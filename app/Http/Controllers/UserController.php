@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use DB;
 use Hash;
 use App\Models\User;
@@ -43,8 +44,9 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
+        $organizations = Organization::pluck('name','name')->all();
 
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles'),compact('organizations'));
     }
 
     /**
@@ -95,9 +97,11 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
+        $organizations = Organization::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
+        $userOrganization =  array($user->organization->name => $user->organization->name,);
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        return view('users.edit', compact('user', 'roles', 'userRole','organizations','userOrganization'));
     }
 
     /**

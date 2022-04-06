@@ -10,6 +10,9 @@
         <div class="card">
             <div class="card-header">Users
                 <span class="float-right">
+                        @if( auth()->user()->can("settings-list"))
+                        <a class="btn btn-secondary" href="{{ route('settings.index') }}">Settings</a>
+                    @endif
                     <a class="btn btn-primary" href="{{ route('users.create') }}">New User</a>
                 </span>
             </div>

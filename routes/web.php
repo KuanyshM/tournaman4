@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
     Route::resource('posts', \App\Http\Controllers\PostController::class);
     Route::resource('organizations', \App\Http\Controllers\OrganizationController::class);
+    Route::resource('settings', \App\Http\Controllers\SettingsController::class);
 });
 
 Route::get('/articles', [ArticleController::class, 'index']);

@@ -11,14 +11,13 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'detail']);
-        $this->middleware('permission:event-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:event-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
     }
 
     public function index()
     {
-        $data = Event::latest()->paginate(3);
+        $data = Event::latest()->paginate(15);
         return view('events.index',[
             'events' => $data
         ]);
