@@ -7,6 +7,7 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EventCommentController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -15,7 +16,7 @@ Route::get('lang/home', [LangController::class, 'index']);
 Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('users', UserController::class);
     Route::resource('roles', \App\Http\Controllers\RoleController::class);
     Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
     Route::resource('posts', \App\Http\Controllers\PostController::class);
@@ -84,6 +85,9 @@ Route::get('/event-comments/delete/{id}', [
     EventCommentController::class,
     'delete',
 ]);
+Route::get('/profile',
+    [UserController::class,
+        'profile']);
 
 Auth::routes();
 

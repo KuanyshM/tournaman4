@@ -7,6 +7,7 @@ use Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -31,7 +32,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id', 'desc')->paginate(5);
+        $user = auth()->user();
+        if($user->can("settings-list")){
+            $data = User::orderBy('id', 'desc')->paginate(5);
+        }else{
+            $data = User::orderBy('id', 'desc')->where("organization_id",$user->organization_id)->paginate(5);
+        }
 
         return view('users.index', compact('data'));
     }
@@ -44,7 +50,15 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        $organizations = Organization::pluck('name','name')->all();
+        unset($roles['admin']);
+        if(auth()->user()->can("settings-list")){
+            $organizations = Organization::pluck('name','name')->all();
+
+        }else{
+            $organizations = Organization::where('id',auth()->user()->organization_id)->pluck('name','name')->all();
+
+        }
+
 
         return view('users.create', compact('roles'),compact('organizations'));
     }
@@ -65,10 +79,17 @@ class UserController extends Controller
         ]);
 
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        if(auth()->user()->can('settings-list')){
+            $organization = DB::table('organizations')->where('name', $input['organizations'][0])->first();
+        }else{
+            $organization = Organization::find(auth()->user()->organization_id);
+        }
 
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        $input['password'] = Hash::make($input['password']);
+        $input['organization_id'] = $organization->id;
+
+       $user = User::create($input);
+       $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully.');
@@ -95,13 +116,19 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name', 'name')->all();
-        $organizations = Organization::pluck('name', 'name')->all();
-        $userRole = $user->roles->pluck('name', 'name')->all();
-        $userOrganization =  array($user->organization->name => $user->organization->name,);
+        if(auth()->user()->can("settings-list") || $id==auth()->user()->id ){
+            $user = User::find($id);
+            $roles = Role::pluck('name', 'name')->all();
+            unset($roles['admin']);
+            $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('users.edit', compact('user', 'roles', 'userRole','organizations','userOrganization'));
+            return view('users.edit', compact('user', 'roles', 'userRole'));
+        }else{
+            $user = User::find($id);
+
+            return view('users.show', compact('user'));
+        }
+
     }
 
     /**
@@ -153,5 +180,13 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully.');
+    }
+
+
+    public function profile()
+    {
+        $user = auth()->user();
+
+        return view('users.show', compact('user'));
     }
 }

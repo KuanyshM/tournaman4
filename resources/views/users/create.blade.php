@@ -41,10 +41,17 @@
                         <strong>Role:</strong>
                         {!! Form::select('roles[]', $roles,[], array('class' => 'form-control','multiple')) !!}
                     </div>
+                @if(auth()->user()->can("settings-list"))
+                    <div class="form-group">
+                        <strong>Organization1:</strong>
+                        {!! Form::select('organizations[]', $organizations,[], array('class' => 'form-control','multiple')) !!}
+                    </div>
+                @else
                 <div class="form-group">
-                    <strong>Organization:</strong>
-                    {!! Form::select('organizations[]', $organizations,[], array('class' => 'form-control','multiple')) !!}
+                    <strong>Organization2:</strong>
+                    {!! Form::select('organizations[]', $organizations,[], array('class' => 'form-control','multiple','required')) !!}
                 </div>
+                @endif
                     <button type="submit" class="btn btn-primary">Submit</button>
                 {!! Form::close() !!}
             </div>

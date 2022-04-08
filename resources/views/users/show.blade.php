@@ -16,6 +16,9 @@
                 @endcan
             </div>
             <div class="card-body">
+                @if(auth()->user()->can("settings-list") || auth()->user()->id == $user->id)
+                    <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                @endif
                 <div class="lead">
                     <strong>Name:</strong>
                     {{ $user->name }}
@@ -23,10 +26,6 @@
                 <div class="lead">
                     <strong>Email:</strong>
                     {{ $user->email }}
-                </div>
-                <div class="lead">
-                    <strong>Password:</strong>
-                    ********
                 </div>
             </div>
         </div>

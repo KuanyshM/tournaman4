@@ -28,13 +28,21 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('comment-delete', function($user, $comment){
             return $user->id == $comment->user_id;
         });
-        Gate::define('organization-create', function($user){
-            if($user->organization==null){
-                return false;
-            }else{
+
+        Gate::define('organization-create', function(){
+            $user = auth()->user();
+            if($user->organization==null || $user->can('settings-list')){
                 return true;
+            }else{
+                return false;
             }
         });
+        Gate::define('user-edit', function($id){
+            return (auth()->user()->can("settings-list")
+                || $id==auth()->user()->id);
+        });
+
+
 
         //
     }

@@ -41,10 +41,6 @@
                         <strong>Role:</strong>
                         {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control','multiple')) !!}
                     </div>
-                <div class="form-group">
-                    <strong>Organization:</strong>
-                    {!! Form::select('organization[]', $organizations, $userOrganization, array('class' => 'form-control','multiple')) !!}
-                </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 {!! Form::close() !!}
             </div>

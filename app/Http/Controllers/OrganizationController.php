@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -15,9 +16,6 @@ class OrganizationController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:organization-list|organization-create|organization-edit|organization-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:organization-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:organization-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:organization-delete', ['only' => ['destroy']]);
     }
 
@@ -28,7 +26,12 @@ class OrganizationController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Organization::latest()->paginate(5);
+        $user = auth()->user();
+        if($user->can("settings-list")){
+            $data = Organization::orderBy('id', 'desc')->paginate(5);
+        }else{
+            $data = Organization::orderBy('id', 'desc')->where("id",$user->organization_id)->paginate(5);
+        }
 
         return view('organizations.index',compact('data'));
     }
@@ -59,7 +62,10 @@ class OrganizationController extends Controller
         $input = $request->except(['_token']);
         $input['verified'] = false;
 
-        Organization::create($input);
+        $organization = Organization::create($input);
+
+        $user = auth()->user();
+        $user->update(['organization_id'=>$organization->id]);
 
         return redirect()->route('organizations.index')
             ->with('success','Organization created successfully.');

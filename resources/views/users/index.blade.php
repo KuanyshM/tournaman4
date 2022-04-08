@@ -42,9 +42,10 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-success" href="{{ route('users.show',$user->id) }}">Show</a>
-                                    @can('user-edit')
+                                    @if(auth()->user()->can("settings-list") || auth()->user()->id == $user->id)
                                         <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
-                                    @endcan
+                                    @endif
+
                                     @can('user-delete')
                                         {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
                                         {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
