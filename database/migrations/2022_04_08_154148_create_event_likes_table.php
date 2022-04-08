@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventsLikesTable extends Migration
+class CreateEventLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,6 +13,8 @@ class CreateEventsLikesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('event_likes');
+
         Schema::create('event_likes', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
