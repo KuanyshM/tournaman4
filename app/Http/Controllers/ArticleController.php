@@ -66,4 +66,5 @@ class ArticleController extends Controller
 
         return redirect('/articles')->with('info', 'Article deleted');
     }
+
 }

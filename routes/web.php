@@ -89,5 +89,17 @@ Route::get('/profile',
     [UserController::class,
         'profile']);
 
+Route::get('/events/my', [
+    EventController::class,
+    'myevents',
+]);
+Route::get('/events/category/{id}', [
+    EventController::class,
+    'category',
+]);
+Route::post('/events/event-like', [
+    EventController::class,
+    'like',
+]);
 Auth::routes();
 

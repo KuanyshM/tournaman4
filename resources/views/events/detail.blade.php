@@ -21,12 +21,15 @@
                     <p class="card-text">
                         {{ $event->body }}
                     </p>
-                    @can('event-delete')
-                        <a href="{{ url("/events/delete/$event->id") }}"
-                           class="btn btn-warning">
-                            {{ __('messages.Delete') }}
-                        </a>
-                    @endcan
+                    @if(auth()->user()->id ?? 0 == $event->user_id )
+                        @can('event-delete')
+                            <a href="{{ url("/events/delete/$event->id") }}"
+                               class="btn btn-warning">
+                                {{ __('messages.Delete') }}
+                            </a>
+                        @endcan
+                    @endif
+
                 </div>
             </div>
 

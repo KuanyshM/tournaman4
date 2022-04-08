@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function category()
     {
@@ -17,5 +18,9 @@ class Event extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\EventComment');
+    }
+    public function likes()
+    {
+        return $this->hasMany('App\Models\EventLike');
     }
 }

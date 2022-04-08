@@ -27,6 +27,13 @@
                     <strong>Email:</strong>
                     {{ $user->email }}
                 </div>
+                    <div class="lead">
+                        <a href="{{ url("/events/my") }}"
+                           class="btn btn-info">
+                            My Tournaments
+                        </a>
+                    </div>
+
             </div>
         </div>
     </div>

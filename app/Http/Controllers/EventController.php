@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventLike;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -17,9 +18,11 @@ class EventController extends Controller
 
     public function index()
     {
-        $data = Event::latest()->paginate(15);
+        $data = Event::withCount('likes')->latest()->paginate(5);
+        $categories = Category::get();
         return view('events.index',[
-            'events' => $data
+            'events' => $data,
+            'categories' => $categories,
         ]);
     }
 
@@ -60,6 +63,7 @@ class EventController extends Controller
         $event->title = request()->title;
         $event->body = request()->body;
         $event->category_id = request()->category_id;
+        $event->user_id = auth()->user()->id;
         $event->save();
 
         return redirect('/events');
@@ -69,8 +73,51 @@ class EventController extends Controller
     public function delete($id)
     {
         $event = Event::find($id);
-        $event->delete();
+        if(auth()->user()->id == $event->user_id){
+            $event->delete();
+        }
 
         return redirect('/events')->with('info', 'Article deleted');
+    }
+    public function myevents()
+    {
+        $data = Event::where('user_id',auth()->user()->id)->latest()->paginate(5);
+        $categories = Category::get();
+        return view('events.index',[
+            'events' => $data,
+            'categories' => $categories,
+        ]);
+    }
+    public function category($id)
+    {
+        $data = Event::where('category_id',$id)->latest()->paginate(5);
+        $categories = Category::get();
+        return view('events.index',[
+            'events' => $data,
+            'categories' => $categories,
+        ]);
+
+    }
+    public function like()
+    {
+
+        $event = Event::find(request()->event_id ?? 0 );
+        $user = auth()->user();
+        $userLike = EventLike::select('*')
+            ->where('event_id', '=', $event->id)
+            ->where('user_id', '=', $user->id)
+            ->first();
+
+        if(!$userLike){
+            $like = new EventLike();
+            $like->event_id = $event->id;
+            $like->user_id = $user->id;
+            $like->save();
+        }else{
+            $userLike->delete();
+        }
+
+       return redirect()->back();
+
     }
 }
