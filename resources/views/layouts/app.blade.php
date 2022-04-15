@@ -29,6 +29,11 @@
                 <img src="{{url('trophy_3.webp')}}" width="34" height="34">
                 {{ config('app.name', 'Tournaman') }}
             </a>
+            <form  action="{{ url('events/search') }}" method="GET" >
+                <input name="key" class="form-control" type="text" placeholder="Search" aria-label="Search">
+
+            </form>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>

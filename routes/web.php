@@ -101,6 +101,10 @@ Route::get('/events/category/{id}', [
     EventController::class,
     'category',
 ]);
+Route::get('/events/search', [
+    EventController::class,
+    'search',
+]);
 Route::post('/events/event-like', [
     EventController::class,
     'like',

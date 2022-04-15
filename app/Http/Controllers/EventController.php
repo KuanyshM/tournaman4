@@ -119,6 +119,16 @@ class EventController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function search(Request $request)
+    {   $key = $request->key;
+        $data = Event::where('title','like',"%$key%")->orWhere('body','like',"%$key%")->latest()->paginate(5);
+        $categories = Category::get();
+        return view('events.index',[
+            'events' => $data,
+            'categories' => $categories,
+        ]);
+
+    }
     public function like()
     {
 
