@@ -93,6 +93,10 @@ Route::get('/events/my', [
     EventController::class,
     'myevents',
 ]);
+Route::get('/events/organization/{id}', [
+    EventController::class,
+    'organizationEvents',
+]);
 Route::get('/events/category/{id}', [
     EventController::class,
     'category',
@@ -100,6 +104,14 @@ Route::get('/events/category/{id}', [
 Route::post('/events/event-like', [
     EventController::class,
     'like',
+]);
+Route::post('/events/event-participate', [
+    EventController::class,
+    'participate',
+]);
+Route::post('/organizations/organization-follow', [
+    \App\Http\Controllers\OrganizationController::class,
+    'follow',
 ]);
 Auth::routes();
 

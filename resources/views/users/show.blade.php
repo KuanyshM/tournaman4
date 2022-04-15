@@ -23,16 +23,21 @@
                     <strong>Name:</strong>
                     {{ $user->name }}
                 </div>
-                <div class="lead">
-                    <strong>Email:</strong>
-                    {{ $user->email }}
-                </div>
+                    <div class="lead">
+                        <strong>Email:</strong>
+                        {{ $user->email }}
+                    </div>
+                    <div class="lead">
+                        <strong>Partisipations:</strong>
+                        {{$user->participations_count}}
+                    </div>
                     <div class="lead">
                         <a href="{{ url("/events/my") }}"
                            class="btn btn-info">
-                            My Tournaments
+                            Tournaments
                         </a>
                     </div>
+
 
             </div>
         </div>

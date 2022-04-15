@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\EventLike;
+use App\Models\EventParticipation;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -28,7 +30,7 @@ class EventController extends Controller
 
     public function detail($id)
     {
-        $data = Event::find($id);
+        $data = Event::withCount('likes')->withCount('participations')->with('user')->find($id);
         if(is_null($data)){
             $data = Event::latest()->paginate(3);
             return view('events.index',[
@@ -81,7 +83,7 @@ class EventController extends Controller
     }
     public function myevents()
     {
-        $data = Event::where('user_id',auth()->user()->id)->latest()->paginate(5);
+        $data = Event::withCount('likes')->withCount('participations')->where('user_id',auth()->user()->id)->latest()->paginate(5);
         $categories = Category::get();
         return view('events.index',[
             'events' => $data,
@@ -97,6 +99,25 @@ class EventController extends Controller
             'categories' => $categories,
         ]);
 
+    }
+    public function organizationEvents($id)
+    {
+        $list = DB::select("select
+       e.id
+                            from tournaman.events e
+                        inner join tournaman.users u on e.user_id = u.id
+                        where u.organization_id = $id");
+        $temp = array();
+        foreach ($list as $item){
+            $temp[]=$item->id;
+        }
+
+        $data = Event::withCount('likes')->whereIn('id',$temp)->latest()->paginate(5);
+        $categories = Category::get();
+        return view('events.index',[
+            'events' => $data,
+            'categories' => $categories,
+        ]);
     }
     public function like()
     {
@@ -118,6 +139,29 @@ class EventController extends Controller
         }
 
        return redirect()->back();
+
+    }
+
+    public function participate()
+    {
+
+        $event = Event::find(request()->event_id ?? 0 );
+        $user = auth()->user();
+        $userParticipation = EventParticipation::select('*')
+            ->where('event_id', '=', $event->id)
+            ->where('user_id', '=', $user->id)
+            ->first();
+
+        if(!$userParticipation){
+            $participation = new EventParticipation();
+            $participation->event_id = $event->id;
+            $participation->user_id = $user->id;
+            $participation->save();
+        }else{
+            $userParticipation->delete();
+        }
+
+        return redirect()->back();
 
     }
 }

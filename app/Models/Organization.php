@@ -18,4 +18,8 @@ class Organization extends Model
         'description',
         'verified'
     ];
+    public function followers()
+    {
+        return $this->hasMany('App\Models\OrganizationFollowing');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\OrganizationFollowing;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -79,7 +80,7 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $organization = Organization::find($id);
+        $organization = Organization::withCount('followers')->find($id);
 
         return view('organizations.show', compact('organization'));
     }
@@ -131,5 +132,27 @@ class OrganizationController extends Controller
 
         return redirect()->route('organizations.index')
             ->with('success', 'Organization deleted successfully.');
+    }
+    public function follow()
+    {
+
+        $organization = Organization::find(request()->organization_id ?? 0 );
+        $user = auth()->user();
+        $userFollow= OrganizationFollowing::select('*')
+            ->where('organization_id', '=', $organization->id)
+            ->where('user_id', '=', $user->id)
+            ->first();
+
+        if(!$userFollow){
+            $follow = new OrganizationFollowing();
+            $follow->organization_id = $organization->id;
+            $follow->user_id = $user->id;
+            $follow->save();
+        }else{
+            $userFollow->delete();
+        }
+
+        return redirect()->back();
+
     }
 }

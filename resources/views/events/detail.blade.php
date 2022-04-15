@@ -21,15 +21,45 @@
                     <p class="card-text">
                         {{ $event->body }}
                     </p>
-                    @if(auth()->user()->id ?? 0 == $event->user_id )
-                        @can('event-delete')
-                            <a href="{{ url("/events/delete/$event->id") }}"
-                               class="btn btn-warning">
-                                {{ __('messages.Delete') }}
+                    @auth
+                        @if(auth()->user()->id == $event->user_id )
+                            @can('event-delete')
+                                <p>
+                                    <a href="{{ url("/events/delete/$event->id") }}"
+                                       class="btn btn-warning">
+                                        {{ __('messages.Delete') }}
+                                    </a>
+                                </p>
+                            @endcan
+                        @endif
+                        <p>
+                            <a href="{{ url("/organizations/".$event->user->organization_id) }}" class="">
+                                {{ __('messages.Organization')}}
                             </a>
-                        @endcan
-                    @endif
+                        </p>
+                        <p>
+                            <form action="{{ url('/events/event-participate') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="event_id"
+                                       value="{{ $event->id }}">
+                                <p class="card-img-bottom">
+                                    <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Participate') }} {{ $event->participations_count }}</i> </button>
+                                </p>
+                            </form>
+                        </p>
+                            <p>
+                            <form action="{{ url('/events/event-like') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="event_id"
+                                       value="{{ $event->id }}">
+                                <p class="card-img-bottom">
+                                    <button  type="submit" class="btn btn-block btn-primary float-right"><i class="fa fa-thumbs-up">Like {{ $event->likes_count }}</i> </button>
 
+                                </p>
+
+                            </form>
+                            </p>
+                    @endauth
                 </div>
             </div>
 

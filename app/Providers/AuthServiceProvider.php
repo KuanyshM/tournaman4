@@ -37,10 +37,10 @@ class AuthServiceProvider extends ServiceProvider
                 return false;
             }
         });
-        Gate::define('user-edit', function($id){
+/*        Gate::define('user-edit', function($id){
             return (auth()->user()->can("settings-list")
                 || $id==auth()->user()->id);
-        });
+        });*/
 
 
 

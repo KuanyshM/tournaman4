@@ -57,18 +57,6 @@
                             </p>
 
                         </form>
-                        <form action="{{ url('/event-like') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="event_id"
-                                   value="{{ $event->id }}">
-                            <p class="card-img-bottom">
-                                <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">Follow {{ $event->likes_count }}</i> </button>
-
-                            </p>
-
-                        </form>
-
-
                     </div>
                 </div>
             @endforeach

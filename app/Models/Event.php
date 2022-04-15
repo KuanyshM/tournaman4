@@ -23,4 +23,12 @@ class Event extends Model
     {
         return $this->hasMany('App\Models\EventLike');
     }
+    public function participations()
+    {
+        return $this->hasMany('App\Models\EventParticipation');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

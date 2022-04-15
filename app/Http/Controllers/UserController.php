@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\OrganizationFollowing;
 use DB;
 use Hash;
 use App\Models\User;
@@ -185,8 +186,31 @@ class UserController extends Controller
 
     public function profile()
     {
-        $user = auth()->user();
+        $user = User::withCount('participations')->withCount('participations')->where('id',auth()->user()->id)->first();
 
         return view('users.show', compact('user'));
+    }
+
+    public function follow()
+    {
+        $organization = Organization::find(request()->organization_id ?? 0 );
+        $user = auth()->user();
+        $userOrganization = OrganizationFollowing::select('*')
+            ->where('event_id', '=', $organization->id)
+            ->where('user_id', '=', $user->id)
+            ->first();
+
+        if(!$userOrganization){
+            $userOrganization = new OrganizationFollowing();
+            $userOrganization->organization_id = $organization->id;
+            $userOrganization->user_id = $user->id;
+            $userOrganization->save();
+        }else{
+            $userOrganization->delete();
+        }
+
+        return redirect()->back();
+
+
     }
 }
