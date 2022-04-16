@@ -13,7 +13,7 @@ class EventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'detail']);
+        $this->middleware('auth')->except(['index', 'detail','search']);
         $this->middleware('permission:event-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
     }
