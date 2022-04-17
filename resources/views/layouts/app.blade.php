@@ -23,59 +23,43 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top shadow  bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{url('trophy_3.webp')}}" width="34" height="34">
-                {{ config('app.name', 'Tournaman') }}
+            <a class="navbar-brand text-black text-uppercase" href="{{ url('/') }}">
+               {{ config('app.name', 'Tournaman') }}
             </a>
-            <form  action="{{ url('events/search') }}" method="GET" >
-                <input name="key" class="form-control" type="text" placeholder="Search" aria-label="Search">
 
+            <form action="{{ url('events/search') }}" method="GET" class="form-inline my-2 my-lg-0">
+                <input name="key" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             </form>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <button class="navbar-toggler  bg-opacity-10 bg-black" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a href="{{ url('/events/add') }}"
-                           class="nav-link">
+                           class="nav-link text-black">
                             {{ __('messages.Add Tournament') }}
                         </a>
                     </li>
-                {{--                        <li class="nav-item">
-                                            <a href="{{ url('/events/add') }}"
-                                               class="nav-link text">
-                                                City
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ url('/events/add') }}"
-                                               class="nav-link text">
-                                                English
-                                            </a>
-                                        </li>--}}
-                <!-- Authentication Links -->
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
+                                <a class="nav-link text-black" href="{{ route('login') }}">{{ __('messages.Login') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
+                                <a class="nav-link text-black" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
                             </li>
                         @endif
                     @else
                         <li class="nav-item dropdown px-lg-5">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->name }}</a>
+                            <a class="nav-link text-black dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->name }}</a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown01">
                                 <li><a class="dropdown-item" href="{{ url("/profile") }}">Profile</a></li>
                                 @can('settings-list')
@@ -100,8 +84,8 @@
         </div>
     </nav>
 
-    <main class="container">
-        <div class="bg-light p-5 rounded">
+    <main class="container pt-5">
+        <div class="bg-light pt-4 rounded">
             @yield('content')
         </div>
     </main>

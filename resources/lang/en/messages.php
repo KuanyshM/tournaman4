@@ -16,7 +16,7 @@ return [
     'title' => 'Title in english',
     'slectLanguage' => 'Select Language',
     'All rights reserved' => 'All rights reserved',
-    'Add Tournament' => 'Add Tournament',
+    'Add Tournament' => 'Create a Tournament',
     'Logout' => 'Logout',
     'Category' => 'Category',
     'View Detail' => 'View Detail',
