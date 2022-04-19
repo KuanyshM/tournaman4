@@ -11,21 +11,20 @@
             @endif
                 <div class="card mb-2">
                     <div class="card-body  row">
-                        <div class="col-1 dropdown">
-                            <div class="nav-item dropdown">
-                                <div  class="dropdown-toggle"  role="button" data-bs-toggle="dropdown" >
-                                    Category
-                                </div>
-
-                                <div class="dropdown-menu" >
-                                    @foreach($categories as $category)
-                                        <div class="dropdown-item"><a href="{{url("events/category/$category->id")}}">{{$category->name}}</a></div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="nav nav-tabs ">
+                            <li class="nav-item">
+                                <a class="nav-link @php if(!isset($activeCategoryID)){echo " active ";} @endphp" aria-current="page" href="{{url("events/")}}">All</a>
+                            </li>
+                            @foreach($categories as $category)
+                                <li class="nav-item">
+                                    <a class="nav-link @php if(isset($activeCategoryID) && $activeCategoryID == $category->id){echo " active ";} @endphp" href="{{url("events/category/$category->id")}}">{{$category->name}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
+
+                <br>
 
             {{ $events->links() }}
 
@@ -51,7 +50,10 @@
 
 
                                 <div class="card-body pt-0">
-                                    <button class="btn-sm btn-success border-0 pt-0 pb-0 ps-1 pe-1" >{{$event->category->name}}</button>
+                                    <a href="{{url("/events/category/$event->category_id")}}">
+                                        <button class="btn-sm btn-success border-0 pt-0 pb-0 ps-1 pe-1" >{{$event->category->name}}</button>
+
+                                    </a>
 
                                     <h5 class="card-title"> {{ substr($event->title,0,15) }}</h5>
                                     <h6 class="card-subtitle text-warning"> {{ $event->created_at }}</h6>

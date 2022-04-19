@@ -52,11 +52,6 @@
                             </li>
                         @endif
 
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link text-black" href="{{ route('register') }}">{{ __('messages.Register') }}</a>
-                            </li>
-                        @endif
                     @else
                         <li class="nav-item dropdown px-lg-5">
                             <a class="nav-link text-black dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->name }}</a>
