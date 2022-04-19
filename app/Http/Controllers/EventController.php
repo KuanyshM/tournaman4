@@ -65,6 +65,14 @@ class EventController extends Controller
         $event->title = request()->title;
         $event->body = request()->body;
         $event->category_id = request()->category_id;
+        $event->photo = request()->photo;
+        $event->start_date = request()->start_date;
+        $event->address = request()->category_id;
+        $event->age_from = request()->age_from;
+        $event->age_to = request()->age_to;
+        $event->address = request()->category_id;
+        $event->format_id = request()->format_id;
+        $event->faq = request()->faq;
         $event->user_id = auth()->user()->id;
         $event->save();
 
