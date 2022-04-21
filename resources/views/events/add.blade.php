@@ -79,15 +79,21 @@
                         <input type="text" required name="address"  class="form-control">
                     </div>
                     <div class="mb-3">
+                        <label>Price</label>
+                        <input required type="number" min=0 max=9999 name="price" class="form-control">
+                    </div>
+                    <div class="mb-3">
                         <label>Age Restriction</label>
                         <div class="row">
                             <div class="col-md-4">
                                 <label>From</label>
-                                <input required type="number" min=1 max=150 name="age_from" class="form-control"></div>
+                                <input required type="number" min=1 max=150 name="age_from" class="form-control">
+                            </div>
                             <div class="col-md-4">
                                 <label>To</label>
-                                <input required type="number" min="1"  max="150"  name="age_to" class="form-control"></div>
+                                <input required type="number" min="1"  max="150"  name="age_to" class="form-control">
                             </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label>Format</label>

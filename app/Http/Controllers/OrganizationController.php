@@ -63,6 +63,7 @@ class OrganizationController extends Controller
         $input = $request->except(['_token']);
         $input['verified'] = false;
 
+
         $organization = Organization::create($input);
 
         $user = auth()->user();

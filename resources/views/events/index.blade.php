@@ -32,7 +32,7 @@
                     @foreach($events as $event)
                         <div class="col-md-3 pb-5">
                             <div class="card" style="width: 18rem;">
-                                <img height="180" width="286" class="card-img-top" src="{{url("images/$event->photo")}}"   >
+                                <img onclick="window.location='{{ url("/events/detail/$event->id") }}';" height="180" width="286" class="card-img-top" src="{{url("images/$event->photo")}}"   >
                                 <img onclick="like({{$event->id}})"  class="position-absolute"
                                      @php
                                      $url = "like.png";
@@ -49,7 +49,7 @@
                                 </p>
 
 
-                                <div class="card-body pt-0">
+                                <div onclick="window.location='{{ url("/events/detail/$event->id") }}';" class="card-body pt-0">
                                     <a href="{{url("/events/category/$event->category_id")}}">
                                         <button class="btn-sm btn-success border-0 pt-0 pb-0 ps-1 pe-1" >{{$event->category->name}}</button>
 
@@ -58,9 +58,18 @@
                                     <h5 class="card-title"> {{ substr($event->title,0,15) }}</h5>
                                     <h6 class="card-subtitle text-warning"> {{ $event->created_at }}</h6>
                                     <p class="card-text">
-                                        {{ substr($event->body,0,50)  }}...
+                                        {{ substr($event->address,0,50)  }}...
                                     </p>
-                                    <a  href="{{ url("/events/detail/$event->id") }}">View Detail &laquo;</a>
+                                    @if($event->price==0)
+                                        <p class="card-text">
+                                            Free
+                                        </p>
+                                    @else
+                                        <p class="card-text">
+                                            Starts at: ${{$event->price}}
+                                        </p>
+                                    @endif
+
                                     <p class="card-text pt-2 fw-bold">
                                         {{$event->user->organization->name}}
                                     </p>

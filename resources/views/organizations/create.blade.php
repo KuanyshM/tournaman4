@@ -29,6 +29,16 @@
                         <strong>Description:</strong>
                         {!! Form::textarea('description', null, array('placeholder' => 'Description','class' => 'form-control')) !!}
                     </div>
+                {!! Form::open(array('route' => 'organizations.store', 'method'=>'POST')) !!}
+                <div class="form-group">
+                    <strong>Facebook:</strong>
+                    {!! Form::text('facebook', null, array('placeholder' => 'Facebook','class' => 'form-control')) !!}
+                </div>
+                {!! Form::open(array('route' => 'organizations.store', 'method'=>'POST')) !!}
+                <div class="form-group">
+                    <strong>Twitter:</strong>
+                    {!! Form::text('twitter', null, array('placeholder' => 'Twitter','class' => 'form-control')) !!}
+                </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 {!! Form::close() !!}
             </div>

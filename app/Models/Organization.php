@@ -16,7 +16,9 @@ class Organization extends Model
     protected $fillable = [
         'name',
         'description',
-        'verified'
+        'verified',
+        'facebook',
+        'twitter'
     ];
     public function followers()
     {

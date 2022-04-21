@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\EventLike;
 use App\Models\EventParticipation;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -37,8 +38,11 @@ class EventController extends Controller
                 'events' => $data
             ]);
         }
+        $organization = Organization::withCount('followers')->find($data->user->organization_id);
+
         return view('events.detail',[
-            'event' => $data
+            'event' => $data,
+            'organization' => $organization
         ]);
     }
 
@@ -84,6 +88,7 @@ class EventController extends Controller
         $event->reg_start_date = request()->reg_start_date;
         $event->reg_end_date = request()->reg_end_date;
         $event->numberof_participants = request()->numberof_participants;
+        $event->price = request()->price;
         $event->address = request()->address;
         $event->age_from = request()->age_from;
         $event->age_to = request()->age_to;
