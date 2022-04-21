@@ -20,7 +20,7 @@
             </div>
         @endif
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             @csrf
             <div class="card mb-3">
                 <div class="card-body">
@@ -47,14 +47,32 @@
 
                     <div class="mb-3">
                         <label>Upload photo (2MB)</label><br>
-                        <input onchange="checkSize()" required name="photo" type="file" id="photoInput" class="form-control-file" >
+                        <input onchange="checkSize()" required name="photo" type="file" class="form-control-file" >
                     </div>
 <hr>
                     <h5 class="card-title">Quick details</h5>
-
-                    <div class="mb-3">
-                        <label>Start date</label><br>
+                    <div class="form-control mb-3">
+                        <label>Registration start date</label><br>
+                        <input required name="reg_start_date" type="datetime-local">
+                    </div>
+                    <div class="form-control mb-3">
+                        <label>Registration end date</label><br>
+                        <input required name="reg_end_date" type="datetime-local">
+                    </div>
+                    <div class="form-control mb-3">
+                        <label>Event Start date</label><br>
                         <input required name="start_date" type="datetime-local">
+                    </div>
+                    <div class="form-control mb-3">
+                        <label>Event end date</label><br>
+                        <input required name="end_date" type="datetime-local">
+                    </div>
+                    <div class="mb-3">
+                        <label>Number of teams/participants</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input required type="number" min="1"  name="numberof_participants" class="form-control"></div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label>Address</label>

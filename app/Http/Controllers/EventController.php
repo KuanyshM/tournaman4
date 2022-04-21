@@ -56,21 +56,37 @@ class EventController extends Controller
             'title' => 'required',
             'body' => 'required',
             'category_id' => 'required',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
+        $imageSize = getimagesize(request()->photo);
+        $width = $imageSize[0];
+        $height = $imageSize[1];
+        if(!($width/$height>=1.5 && $width/$height<=1.9)){
+            return back()->withErrors("The photo has invalid image dimensions.");
+        }
         $event= new Event;
         $event->title = request()->title;
         $event->body = request()->body;
         $event->category_id = request()->category_id;
-        $event->photo = request()->photo;
+
+
+
+        $imageName = time().'.'.request()->photo->extension();
+        request()->photo->move(public_path('images'), $imageName);
+        $event->photo  = $imageName;
+
         $event->start_date = request()->start_date;
-        $event->address = request()->category_id;
+        $event->end_date = request()->end_date;
+        $event->reg_start_date = request()->reg_start_date;
+        $event->reg_end_date = request()->reg_end_date;
+        $event->numberof_participants = request()->numberof_participants;
+        $event->address = request()->address;
         $event->age_from = request()->age_from;
         $event->age_to = request()->age_to;
-        $event->address = request()->category_id;
         $event->format_id = request()->format_id;
         $event->faq = request()->faq;
         $event->user_id = auth()->user()->id;

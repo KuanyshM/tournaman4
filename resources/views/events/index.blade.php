@@ -32,7 +32,7 @@
                     @foreach($events as $event)
                         <div class="col-md-3 pb-5">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="{{url('1.png')}}"  >
+                                <img height="180" width="286" class="card-img-top" src="{{url("images/$event->photo")}}"   >
                                 <img onclick="like({{$event->id}})"  class="position-absolute"
                                      @php
                                      $url = "like.png";

@@ -10,6 +10,7 @@
     @section('content')
         <div class="container">
             <div class="card mb-2">
+                <img src="data:image/png;base64, {{ $event->photo }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">
                         {{ $event->title }}
