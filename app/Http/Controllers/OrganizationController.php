@@ -19,7 +19,9 @@ class OrganizationController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:organization-delete', ['only' => ['destroy']]);
+        $this->middleware('auth')->except(['index', 'detail']);
+        $this->middleware('permission:event-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
     }
 
     /**
