@@ -31,4 +31,13 @@ class Event extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+    public  function  canParticipate()
+    {
+        $date = date('Y-m-d h:i:s a', time());
+        if($date>=$this->reg_start_date  && $date<=$this->reg_end_date){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

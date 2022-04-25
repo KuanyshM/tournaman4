@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Event;
 use App\Models\Organization;
 use App\Models\OrganizationFollowing;
 use App\Models\Post;
@@ -79,11 +81,25 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$withEvents = "upcoming")
     {
         $organization = Organization::withCount('followers')->find($id);
+        $date = date('Y-m-d h:i:s a', time());
 
-        return view('organizations.show', compact('organization'));
+        if($withEvents == "upcoming"){
+            $data = Event::where('start_date','>=',"$date")->withCount('likes')->latest()->paginate(5);
+        }else{
+            $data = Event::where('start_date','<=',"$date")->withCount('likes')->latest()->paginate(5);
+        }
+
+        $categories = Category::get();
+        return view('organizations.show',[
+            'events' => $data,
+            'categories' => $categories,
+            'organization' => $organization,
+            'withEvents' => $withEvents
+        ]);
+
     }
 
     /**

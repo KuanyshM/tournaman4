@@ -117,5 +117,9 @@ Route::post('/organizations/organization-follow', [
     \App\Http\Controllers\OrganizationController::class,
     'follow',
 ]);
+Route::get('/organizations/{id}/{withEvents}', [
+    \App\Http\Controllers\OrganizationController::class,
+    'show',
+]);
 Auth::routes();
 

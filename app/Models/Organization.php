@@ -24,4 +24,8 @@ class Organization extends Model
     {
         return $this->hasMany('App\Models\OrganizationFollowing');
     }
+    public function getFollowersCount()
+    {
+        return $this->followers()->count() ;
+    }
 }
