@@ -41,7 +41,7 @@
                                         </p>
                                     @endcan
                                 @endif
-
+                            @endauth
                                     <hr>
                                     <h5 class="card-title">Quick details</h5>
                                     <div class="">
@@ -156,7 +156,7 @@
 
                             </form>
                             </p>
-                    @endauth
+
                 </div>
             </div>
 
