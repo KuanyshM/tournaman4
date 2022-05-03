@@ -42,6 +42,12 @@ class UserController extends Controller
 
         return view('users.index', compact('data'));
     }
+    public function rankings(Request $request)
+    {
+        $data = User::orderBy('id', 'desc')->paginate(3);
+
+        return view('users.rankings', compact('data'));
+    }
 
     /**
      * Show the form for creating a new resource.

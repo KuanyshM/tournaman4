@@ -52,4 +52,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\EventParticipation');
     }
+    public function rankings()
+    {
+        $participations = EventParticipation::with('status')->where('user_id','=',$this->id)->get();
+        $sum = 0;
+        foreach ($participations as $p){
+            $sum = $sum + $p->status->points;
+        }
+        return $sum;
+    }
 }

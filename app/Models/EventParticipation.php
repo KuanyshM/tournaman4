@@ -23,4 +23,8 @@ class EventParticipation extends Model
     {
         return $this->belongsTo("App\Models\Event");
     }
+    public function status()
+    {
+        return $this->belongsTo("App\Models\ParticipationStatus");
+    }
 }

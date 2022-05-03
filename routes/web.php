@@ -137,5 +137,9 @@ Route::get('/organizations/{id}/{withEvents}', [
     \App\Http\Controllers\OrganizationController::class,
     'show',
 ]);
+Route::get('/rankings', [
+    UserController::class,
+    'rankings',
+]);
 Auth::routes();
 
