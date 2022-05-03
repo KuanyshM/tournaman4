@@ -15,6 +15,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-8">
+                            @if($event->user_id==auth()->user()->id)
+                                <p>
+                                    <button class="btn btn-success"  onclick="window.location='{{ url("/events/edit/$event->id") }}';" >Edit</button>
+                                </p>
+                            @endif
                             <h5 class="card-title">
                                 {{ $event->title }}
                             </h5>

@@ -15,7 +15,6 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'detail','search','category']);
-        $this->middleware('permission:event-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
     }
 
@@ -43,6 +42,25 @@ class EventController extends Controller
         return view('events.detail',[
             'event' => $data,
             'organization' => $organization
+        ]);
+    }
+    public function edit($id)
+    {
+        $categories = Category::all();
+
+        $data = Event::withCount('likes')->withCount('participations')->with('user')->find($id);
+        if(is_null($data)){
+            $data = Event::latest()->paginate(3);
+            return view('events.index',[
+                'events' => $data
+            ]);
+        }
+        $organization = Organization::withCount('followers')->find($data->user->organization_id);
+
+        return view('events.edit',[
+            'event' => $data,
+            'organization' => $organization,
+            'categories' => $categories
         ]);
     }
 
@@ -98,6 +116,59 @@ class EventController extends Controller
         $event->save();
 
         return redirect('/events');
+
+    }
+    public function update($id)
+    {
+        $validator = validator(request()->all(), [
+            'title' => 'required',
+            'body' => 'required',
+            'category_id' => 'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        if($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+        $event = Event::find($id);
+        if(is_null($event)){
+            return back()->withErrors("Not found");
+        }
+        $input = array();
+
+        if(!is_null(request()->photo)){
+            $imageSize = getimagesize(request()->photo);
+            $width = $imageSize[0];
+            $height = $imageSize[1];
+            if(!($width/$height>=1.5 && $width/$height<=1.9)){
+                return back()->withErrors("The photo has invalid image dimensions.");
+            }
+            $imageName = time().'.'.request()->photo->extension();
+            request()->photo->move(public_path('images'), $imageName);
+            $input['photo']  = $imageName;
+        }
+
+
+
+
+        $input['title'] = request()->title;
+        $input['body'] = request()->body;
+        $input['category_id'] = request()->category_id;
+        $input['start_date'] = request()->start_date;
+        $input['end_date'] = request()->end_date;
+        $input['reg_start_date'] = request()->reg_start_date;
+        $input['reg_end_date'] = request()->reg_end_date;
+        $input['numberof_participants'] = request()->numberof_participants;
+        $input['price'] = request()->price;
+        $input['address'] = request()->address;
+        $input['age_from'] = request()->age_from;
+        $input['age_to'] = request()->age_to;
+        $input['format_id'] = request()->format_id;
+        $input['faq'] = request()->faq;
+        $input['user_id'] = auth()->user()->id;
+        $event->update($input);
+
+         return back();
 
     }
 

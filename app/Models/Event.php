@@ -9,6 +9,28 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $fillable = [
+
+        'title',
+        'body',
+        'category_id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'user_id',
+        'photo',
+        'start_date',
+        'address',
+        'age_from',
+        'age_to',
+        'format_id',
+        'faq',
+        'end_date',
+        'reg_start_date',
+        'reg_end_date',
+        'numberof_participants',
+        'price'
+    ];
 
     public function category()
     {
@@ -39,5 +61,11 @@ class Event extends Model
         }else{
             return false;
         }
+    }
+    public  function  getDateTime($dateTime){
+     return date('Y-m-d\TH:i', strtotime($dateTime));
+    }
+    public  function  getDateTimeToSQL($dateTime){
+        return date('Y-m-d h:i:s a', strtotime($dateTime));
     }
 }

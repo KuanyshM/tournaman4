@@ -58,6 +58,14 @@ Route::post('/events/add', [
     EventController::class,
     'create',
 ]);
+Route::get('/events/edit/{id}', [
+    EventController::class,
+    'edit',
+]);
+Route::post('/events/update/{id}', [
+    EventController::class,
+    'update',
+]);
 
 Route::get('/articles/delete/{id}', [
     ArticleController::class,
