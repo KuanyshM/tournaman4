@@ -6,6 +6,8 @@ use App\Models\Event;
 use App\Models\EventLike;
 use App\Models\EventParticipation;
 use App\Models\Organization;
+use App\Models\ParticipationStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -190,6 +192,18 @@ class EventController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function participants($id){
+        $statuses = ParticipationStatus::all();
+        $event = Event::find($id);
+        $data = EventParticipation::with('user')
+            ->where('event_participations.event_id','=',$id)
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+
+
+
+        return view('users.participants', compact('data','statuses','event'));
+    }
     public function category($id)
     {
         $data = Event::where('category_id',$id)->latest()->paginate(5);
@@ -269,10 +283,41 @@ class EventController extends Controller
             $participation->user_id = $user->id;
             $participation->save();
         }else{
-            $userParticipation->delete();
+            if($userParticipation->status_id==1){
+                $userParticipation->delete();
+            }else{
+                return back()->withErrors("You can not delete your participation");
+            }
         }
 
         return redirect()->back();
+
+    }
+    public function ParticipationStatus()
+    {
+        $event = Event::where('id','=',request()->event_id)
+                        ->where('user_id','=',auth()->user()->id)->first();
+        if(is_null($event)){
+            return back()->withErrors("Not found");
+        }
+        $participations = request()->participations;
+
+        foreach ($participations as $user_id => $status){
+
+
+            $participation = EventParticipation::where('event_id','=',$event->id)
+                ->where('user_id','=',$user_id)->first();
+            if(is_null($participation)){
+                return back()->withErrors("Not found");
+            }else{
+                $participation->update(['status_id' => $status['status']]);
+            }
+
+
+        }
+
+
+       return redirect()->back();
 
     }
 }

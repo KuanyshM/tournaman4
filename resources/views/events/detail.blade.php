@@ -19,6 +19,9 @@
                                 <p>
                                     <button class="btn btn-success"  onclick="window.location='{{ url("/events/edit/$event->id") }}';" >Edit</button>
                                 </p>
+                                <p>
+                                    <button class="btn btn-success"  onclick="window.location='{{ url("/events/participants/$event->id") }}';" >Participants</button>
+                                </p>
                             @endif
                             <h5 class="card-title">
                                 {{ $event->title }}

@@ -101,6 +101,10 @@ Route::get('/events/my', [
     EventController::class,
     'myevents',
 ]);
+Route::get('/events/participants/{id}', [
+    EventController::class,
+    'participants',
+]);
 Route::get('/events/organization/{id}', [
     EventController::class,
     'organizationEvents',
@@ -120,6 +124,10 @@ Route::post('/events/event-like', [
 Route::post('/events/event-participate', [
     EventController::class,
     'participate',
+]);
+Route::post('/events/event-participate/status', [
+    EventController::class,
+    'ParticipationStatus',
 ]);
 Route::post('/organizations/organization-follow', [
     \App\Http\Controllers\OrganizationController::class,
