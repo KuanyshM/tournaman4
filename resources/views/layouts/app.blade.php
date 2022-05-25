@@ -40,6 +40,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
+                        <a href="{{ url('/teams') }}"
+                           class="nav-link text-black">
+                            Teams
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ url('/rankings') }}"
                            class="nav-link text-black">
                             Rankings
@@ -64,7 +70,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdown01">
                                 <li><a class="dropdown-item" href="{{ url("/profile") }}">Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ url("/events/my") }}">My Tournaments</a></li>
-                                @can('settings-list')
+                            @can('settings-list')
                                     <li><a class="dropdown-item" href="{{ url("/settings") }}">Settings</a></li>
                                 @endcan
                                 <li>
