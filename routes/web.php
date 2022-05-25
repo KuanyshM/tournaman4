@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('permissions', \App\Http\Controllers\PermissionController::class);
     Route::resource('posts', \App\Http\Controllers\PostController::class);
     Route::resource('organizations', \App\Http\Controllers\OrganizationController::class);
+    Route::resource('teams', \App\Http\Controllers\TeamController::class);
     Route::resource('settings', \App\Http\Controllers\SettingsController::class);
 });
 
@@ -140,6 +141,30 @@ Route::get('/organizations/{id}/{withEvents}', [
 Route::get('/rankings', [
     UserController::class,
     'rankings',
+]);
+Route::post('/teams/create', [
+    \App\Http\Controllers\UserTeamController::class,
+    'store',
+]);
+Route::get('/teams/{id}/members', [
+    \App\Http\Controllers\TeamController::class,
+    'members',
+]);
+Route::get('/teams/{id}/requests', [
+    \App\Http\Controllers\TeamController::class,
+    'requests',
+]);
+Route::post('/teams/members/remove', [
+    \App\Http\Controllers\TeamController::class,
+    'removeTeamMember',
+]);
+Route::post('/teams/requests/remove', [
+    \App\Http\Controllers\TeamController::class,
+    'removeTeamRequest',
+]);
+Route::post('/teams/requests/accept', [
+    \App\Http\Controllers\TeamController::class,
+    'acceptTeamRequest',
 ]);
 Auth::routes();
 
