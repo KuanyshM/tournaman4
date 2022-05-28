@@ -30,8 +30,18 @@
             </a>
 
             <form action="{{ url('events/search') }}" method="GET" class="form-inline my-2 my-lg-0">
-                <input name="key" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <div class="inputcontainer">
+                    <input autocomplete="off" onkeyup="search()" id="searchInput" list="suggestionsSearch" name="key" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <div id="loaderIcon" style="display: none;" class="icon-container">
+                        <i class="loader"></i>
+                    </div>
+                    <div class="dropdown">
+                        <div id="myDropdown" class="dropdown-content">
+                        </div>
+                    </div>
+                </div>
             </form>
+
 
             <button class="navbar-toggler  bg-opacity-10 bg-black" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -128,10 +138,6 @@
 
 </div>
 </body>
-<script type="text/javascript">
-
-
-</script>.
 
 <script type="text/javascript">
 
