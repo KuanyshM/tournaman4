@@ -23,7 +23,7 @@ class EventController extends Controller
     public function index()
     {
         $data = Event::withCount('likes')->latest()->paginate(5);
-        $categories = Category::get();
+        $categories = Category::where('parent_id','=',0)->get();
         return view('events.index',[
             'events' => $data,
             'categories' => $categories,
@@ -68,9 +68,14 @@ class EventController extends Controller
 
     public function add()
     {
-        $data = Category::all();
+        $data =  Category::where('parent_id','=',0)->get();
+        $author = User::find(auth()->user()->id);
+        $subCategories = Category::where('parent_id','!=',0)->get();
+
         return view('events.add', [
-            'categories' => $data
+            'categories' => $data,
+            'author' => $author,
+            'subCategories' => $subCategories
         ]);
     }
 
@@ -115,6 +120,19 @@ class EventController extends Controller
         $event->format_id = request()->format_id;
         $event->faq = request()->faq;
         $event->user_id = auth()->user()->id;
+
+        $event->venue = request()->venue;
+        $event->city = request()->city;
+        $event->state = request()->state;
+        $event->meet_links = request()->links;
+        $event->address_announce = request()->announceInput;
+        $event->schedule = request()->schedule;
+        $event->rules = request()->rules;
+        $event->prize = request()->prize;
+        $event->registration = request()->registration_info;
+        $event->eventType = request()->eventType;
+
+
         $event->save();
 
         return redirect('/events');
@@ -186,7 +204,7 @@ class EventController extends Controller
     public function myevents()
     {
         $data = Event::withCount('likes')->withCount('participations')->where('user_id',auth()->user()->id)->latest()->paginate(5);
-        $categories = Category::get();
+        $categories = Category::where('parent_id','=',0)->get();
         return view('events.index',[
             'events' => $data,
             'categories' => $categories,
@@ -207,7 +225,7 @@ class EventController extends Controller
     public function category($id)
     {
         $data = Event::where('category_id',$id)->latest()->paginate(5);
-        $categories = Category::get();
+        $categories = Category::where('parent_id','=',0)->get();
         return view('events.index',[
             'events' => $data,
             'categories' => $categories,
@@ -228,7 +246,7 @@ class EventController extends Controller
         }
 
         $data = Event::withCount('likes')->whereIn('id',$temp)->latest()->paginate(5);
-        $categories = Category::get();
+        $categories = Category::where('parent_id','=',0)->get();
         return view('events.index',[
             'events' => $data,
             'categories' => $categories,
@@ -237,7 +255,7 @@ class EventController extends Controller
     public function search(Request $request)
     {   $key = $request->key;
         $data = Event::where('title','like',"%$key%")->orWhere('body','like',"%$key%")->latest()->paginate(5);
-        $categories = Category::get();
+        $categories = Category::where('parent_id','=',0)->get();
         return view('events.index',[
             'events' => $data,
             'categories' => $categories,
