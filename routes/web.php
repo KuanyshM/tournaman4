@@ -126,6 +126,10 @@ Route::post('/events/event-participate', [
     EventController::class,
     'participate',
 ]);
+Route::post('/events/event-participate-team', [
+    EventController::class,
+    'participateTeam',
+]);
 Route::post('/events/event-participate/status', [
     EventController::class,
     'ParticipationStatus',

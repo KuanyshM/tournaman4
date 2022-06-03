@@ -7,7 +7,9 @@ use App\Models\EventLike;
 use App\Models\EventParticipation;
 use App\Models\Organization;
 use App\Models\ParticipationStatus;
+use App\Models\Team;
 use App\Models\User;
+use App\Models\UserTeam;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -40,10 +42,13 @@ class EventController extends Controller
             ]);
         }
         $organization = Organization::withCount('followers')->find($data->user->organization_id);
+        $myTeams = UserTeam::where('from_user_id','=',auth()->user()->id)
+            ->where('status_id','=',2)->get();
 
         return view('events.detail',[
             'event' => $data,
-            'organization' => $organization
+            'organization' => $organization,
+            'myTeams' => $myTeams
         ]);
     }
     public function edit($id)
@@ -213,14 +218,24 @@ class EventController extends Controller
     public function participants($id){
         $statuses = ParticipationStatus::all();
         $event = Event::find($id);
-        $data = EventParticipation::with('user')
-            ->where('event_participations.event_id','=',$id)
-            ->orderBy('id', 'desc')
-            ->paginate(5);
+        if($event->eventType==1){
+            $data = EventParticipation::with('user')
+                ->where('event_participations.event_id','=',$id)
+                ->where('event_participations.user_id','!=',0)
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        }else{
+            $data = EventParticipation::with('user')
+                ->where('event_participations.event_id','=',$id)
+                ->where('event_participations.team_id','!=',0)
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        }
 
 
 
-        return view('users.participants', compact('data','statuses','event'));
+
+        return view('events.participants', compact('data','statuses','event'));
     }
     public function category($id)
     {
@@ -311,20 +326,52 @@ class EventController extends Controller
         return redirect()->back();
 
     }
+    public function participateTeam()
+    {
+
+        $event = Event::find(request()->event_id ?? 0 );
+        $team = Team::find(request()->team_id ?? 0 );
+        $userParticipation = EventParticipation::select('*')
+            ->where('event_id', '=', $event->id)
+            ->where('team_id', '=', $team->id)
+            ->first();
+
+        if(!$userParticipation){
+            $participation = new EventParticipation();
+            $participation->event_id = $event->id;
+            $participation->team_id = $team->id;
+            $participation->save();
+        }else{
+            if($userParticipation->status_id==1){
+                $userParticipation->delete();
+            }else{
+                return back()->withErrors("You can not delete your participation");
+            }
+        }
+
+        return redirect()->back();
+
+    }
     public function ParticipationStatus()
     {
         $event = Event::where('id','=',request()->event_id)
                         ->where('user_id','=',auth()->user()->id)->first();
-        if(is_null($event)){
-            return back()->withErrors("Not found");
-        }
         $participations = request()->participations;
 
-        foreach ($participations as $user_id => $status){
+        if(is_null($event) || is_null($participations)){
+            return back()->withErrors("Not found");
+        }
 
+        foreach ($participations as $part_id => $status){
 
-            $participation = EventParticipation::where('event_id','=',$event->id)
-                ->where('user_id','=',$user_id)->first();
+            if($event->eventType==1){
+                $participation = EventParticipation::where('event_id','=',$event->id)
+                    ->where('user_id','=',$part_id)->first();
+            }else{
+                $participation = EventParticipation::where('event_id','=',$event->id)
+                    ->where('team_id','=',$part_id)->first();
+            }
+
             if(is_null($participation)){
                 return back()->withErrors("Not found");
             }else{

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 class EventParticipation extends Model
 {
     use HasFactory;
@@ -26,5 +25,9 @@ class EventParticipation extends Model
     public function status()
     {
         return $this->belongsTo("App\Models\ParticipationStatus");
+    }
+    public function team()
+    {
+        return $this->belongsTo("App\Models\Team");
     }
 }

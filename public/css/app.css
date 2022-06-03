@@ -73,3 +73,9 @@ body {
 .dropdown p:hover {background-color: #ddd;}
 
 .show {display: block;}
+.backroundDiv{
+    filter: blur(8px);
+    margin-top: 1.5%;position: absolute;
+
+    width: 100%; height: 35%
+}

@@ -5,56 +5,37 @@
     <title>Detail</title>
 </head>
 <body>
+<div style="background-image: url('{{url("images/$event->photo")}}');" class="backroundDiv"></div>
+
     @extends('layouts.app')
 
     @section('content')
+
         <div class="container">
-            <div class="card mb-2">
-                <img src="{{url("images/$event->photo")}}"class="card-img-top">
-                <hr>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            @auth()
-                                @if($event->user_id==auth()->user()->id)
-                                    <p>
-                                        <button class="btn btn-success"  onclick="window.location='{{ url("/events/edit/$event->id") }}';" >Edit</button>
-                                    </p>
-                                    <p>
-                                        <button class="btn btn-success"  onclick="window.location='{{ url("/events/participants/$event->id") }}';" >Participants</button>
-                                    </p>
-                                @endif
-                            @endauth
-
-                            <h5 class="card-title">
-                                {{ $event->title }}
-                            </h5>
-                            <div class="card-subtitle mb-2 text-muted small">
-                                <p class="card-text">
-                                    {{ $event->created_at}}
-                                </p>
-                                <p class="card-text">
-                                    Category: <b>{{ $event->category->name }}</b>
-                                </p>
-
-                            </div>
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <img src="{{url("images/$event->photo")}}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $event->title }}</h5>
                             <p class="card-text">
                                 {{ $event->body }}
                             </p>
-                            @auth
-                                @if(auth()->user()->id == $event->user_id )
-                                    @can('event-delete')
-                                        <p>
-                                            <a href="{{ url("/events/delete/$event->id") }}"
-                                               class="btn btn-warning">
-                                                {{ __('messages.Delete') }}
-                                            </a>
-                                        </p>
-                                    @endcan
-                                @endif
-                            @endauth
-                                    <hr>
-                                    <h5 class="card-title">Quick details</h5>
+                            <p class="card-text">
+                                Category: <b>{{ $event->category->name }}</b>
+                            </p>
+                            <p class="card-text"><small class="text-muted">Last updated {{ $event->updated_at}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                             <h5 class="card-title">Quick details</h5>
                                     <div class="">
                                         <label>Registration start date</label><br>
                                         <p class="form-control">{{$event->reg_start_date}}</p>
@@ -116,45 +97,87 @@
                         <div class="col-md-4">
                             <div  class="card" style="width: 18rem;">
                                 <div class="card-body">
-                                        <a href="{{ url("/organizations/".$event->user->organization_id) }}" class="card-link">
-                                            <h5 class="card-title">
-                                                {{ $event->user->organization->name}}
-                                            </h5>
-                                        </a>
+                                    <a href="{{ url("/organizations/".$event->user->organization_id) }}" class="card-link">
+                                        <h5 class="card-title">
+                                            {{ $event->user->organization->name}}
+                                        </h5>
+                                    </a>
 
-                                        <div class="form-control">
-                                            <a href="{{$event->user->organization->facebook}}"><img src="{{url("social-media/facebook.svg")}}" alt="icon" width="32" height="32"></a>
-                                            <a href="{{$event->user->organization->facebook}}"><img src="{{url("social-media/twitter.svg")}}" alt="icon" width="32" height="32"></a>
-                                        </div>
+                                    <div class="form-control">
+                                        <a href="{{$event->user->organization->facebook}}"><img src="{{url("social-media/facebook.svg")}}" alt="icon" width="32" height="32"></a>
+                                        <a href="{{$event->user->organization->facebook}}"><img src="{{url("social-media/twitter.svg")}}" alt="icon" width="32" height="32"></a>
+                                    </div>
 
-
-                                        <form class="pt-2"  action="{{ url('/organizations/organization-follow') }}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="organization_id"
-                                                   value="{{ $event->user->organization_id }}">
-                                            <p class="card-img-bottom">
-                                                <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Follow') }}  {{ $organization->followers_count }}</i> </button>
-                                            </p>
-                                        </form>
+                                    <form class="pt-2"  action="{{ url('/organizations/organization-follow') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="organization_id"
+                                               value="{{ $event->user->organization_id }}">
+                                        <p class="card-img-bottom">
+                                            <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Follow') }}  {{ $organization->followers_count }}</i> </button>
+                                        </p>
+                                    </form>
                                 </div>
-
                             </div>
+                                @auth()
+                                    @if($event->user_id==auth()->user()->id)
+                                        <div  class="card mt-3" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <p class="card-subtitle">Manage</p>
+                                                <p>
+                                                    <button class="btn btn-success"  onclick="window.location='{{ url("/events/edit/$event->id") }}';" >Edit</button>
+                                                </p>
+                                                <p>
+                                                    <button class="btn btn-success"  onclick="window.location='{{ url("/events/participants/$event->id") }}';" >Participants</button>
+                                                </p>
+                                                <p>
+                                                    <a href="{{ url("/events/delete/$event->id") }}"
+                                                       class="btn btn-warning">
+                                                        {{ __('messages.Delete') }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endauth
                         </div>
-
                     </div>
 
-
-
+                @if($event->eventType==1)
                         <p>
-                            <form action="{{ url('/events/event-participate') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="event_id"
-                                       value="{{ $event->id }}">
-                                <p class="card-img-bottom">
-                                    <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Participate') }} {{ $event->participations_count }}</i> </button>
-                                </p>
-                            </form>
+                        <form action="{{ url('/events/event-participate') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="event_id"
+                                   value="{{ $event->id }}">
+                            <p class="card-img-bottom">
+                                <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Participate') }} {{ $event->participations_count }}</i> </button>
+                            </p>
+                        </form>
                         </p>
+                    @else
+                        @if(count($myTeams)==0)
+                            <p>
+                                <a href="{{url('teams/create')}}">Add new team to participate</a>
+                            </p>
+                        @else
+                            <div class="col-md-8">
+                                <form action="{{ url('/events/event-participate-team') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="event_id"
+                                           value="{{ $event->id }}">
+                                    <select required name="team_id" class=" form-control">
+                                        @foreach($myTeams as $t)
+                                            <option class="form-control" value="{{$t->team->id}}">{{$t->team->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <p class="mt-3 card-img-bottom">
+                                        <button  type="submit" class="btn btn-block btn-info float-right"><i class="fa fa-thumbs-up">{{ __('messages.Participate') }} {{ $event->participations_count }}</i> </button>
+                                    </p>
+
+                                </form>
+                            </div>
+
+                        @endif
+                    @endif
                             <p>
                             <form action="{{ url('/events/event-like') }}" method="post">
                                 @csrf
