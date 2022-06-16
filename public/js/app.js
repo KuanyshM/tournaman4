@@ -69,6 +69,14 @@ function search(){
 
 
 }
+function searchCity(){
+    var cityName = document.getElementById("cityName");
+    console.log(cityName.value);
+}
+function selectCity(){
+    var cityName = document.getElementById("cityName");
+    console.log(cityName.value);
+}
 function hiddenFunction(id) {
     var x = document.getElementById(id);
     if (x.style.display === "none") {

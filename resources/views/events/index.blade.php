@@ -38,7 +38,7 @@
                                                     {{$event->numberof_participants}}
                                                 </h6>
                                                 @if($event->canParticipate())
-                                                    <h6 class="small">
+                                                    <h6 class="small ps-5 pt-2">
                                                         Registration open
                                                     </h6>
                                                 @else

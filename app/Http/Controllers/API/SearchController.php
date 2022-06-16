@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\Event;
 use App\Models\Organization;
 use App\Models\Team;
@@ -53,6 +55,20 @@ class SearchController extends BaseController
         $data['users']=$users;
         $data['teams']=$teams;
         $data['organizations']=$organization;
+
+//sleep(1.5);
+        return $this->sendResponse($data, 'List of results');
+    }
+    public function searchCity()
+    {
+        $searchKey = request()->search;
+        $city = City::where('name','like',"%".$searchKey."%")
+            ->with('Country')
+            ->limit(5)
+            ->orderByDesc('priority')
+            ->get();
+
+        $data['city']=$city;
 
 //sleep(1.5);
         return $this->sendResponse($data, 'List of results');

@@ -134,10 +134,16 @@
                                                 <input placeholder="Address" type="text" id="addressName"   name="address"  class="form-control">
                                             </div>
                                             <div class=" mb-4 col-md-6">
-                                                <input placeholder="City" type="text" id="city"  name="city"  class="form-control">
-                                            </div>
-                                            <div class=" mb-4 col-md-6">
-                                                <input placeholder="State"  type="text" id="state"  name="state"  class="form-control">
+                                                <input id="cityName" placeholder="City" type="text" id="city" onkeyup="searchCity()"  name="city"  class="form-control">
+                                                <div class="dropdown">
+                                                    <div id="myDropdown" class="dropdown-content">
+                                                        <p onclick="selectCity()">City name <div class="small">Country </div></p>
+                                                        <p onclick="selectCity()">City name</p>
+                                                        <p>Name</p>
+                                                        <p>Mame</p>
+                                                        <p>44</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
