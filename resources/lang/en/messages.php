@@ -36,7 +36,7 @@ return [
     'Participate' => 'Participate',
     'Organization' => 'Organization',
     'Follow' => 'Follow',
-    '' => '',
+    'addComent' => 'Add comment',
     '' => '',
     '' => '',
 

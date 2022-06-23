@@ -33,6 +33,7 @@ return [
     'Remember Me' => 'Запомнить меня',
     'Forgot Your Password' => 'Забыли пароль',
     'Delete' => 'Удалить',
+    'addComent' => 'Добавить коментарии'
 
 
 
