@@ -42,8 +42,11 @@ class EventController extends Controller
             ]);
         }
         $organization = Organization::withCount('followers')->find($data->user->organization_id);
-        $myTeams = UserTeam::where('from_user_id','=',auth()->user()->id)
-            ->where('status_id','=',2)->get();
+        $myTeams = array();
+        if(auth()->check()){
+            $myTeams = UserTeam::where('from_user_id','=',auth()->user()->id)
+                ->where('status_id','=',2)->get();
+        }
 
         return view('events.detail',[
             'event' => $data,
