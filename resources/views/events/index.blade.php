@@ -3,6 +3,11 @@
 
     @section("content")
         <div class="container">
+            <div style="margin-bottom: 3%">
+                <div class="row">
+1
+                </div>
+            </div>
 
             @if (session('info'))
                 <div class="alert alert-info">

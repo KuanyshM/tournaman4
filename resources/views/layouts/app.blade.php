@@ -29,18 +29,6 @@
                {{ config('app.name', 'Tournaman') }}
             </a>
 
-            <form action="{{ url('events/search') }}" method="GET" class="form-inline my-2 my-lg-0">
-                <div class="inputcontainer">
-                    <input autocomplete="off" onkeyup="search()" id="searchInput" list="suggestionsSearch" name="key" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <div id="loaderIcon" style="display: none;" class="icon-container">
-                        <i class="loader"></i>
-                    </div>
-                    <div class="dropdown">
-                        <div id="myDropdown" class="dropdown-content">
-                        </div>
-                    </div>
-                </div>
-            </form>
 
 
             <button class="navbar-toggler  bg-opacity-10 bg-black" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -102,8 +90,8 @@
         </div>
     </nav>
 
-    <main class="container pt-5">
-        <div class="bg-light pt-4 rounded">
+    <main class="container">
+        <div class="bg-light rounded">
             @yield('content')
         </div>
     </main>

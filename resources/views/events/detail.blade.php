@@ -7,66 +7,37 @@
     <script defer src="{{url("js/script.js")}}"></script>
 </head>
 <body>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
-    canvas {
-        position: absolute;
-    }
-</style>
-{{--<div style="background-image: url('{{url("images/$event->photo")}}');" class="backroundDiv"></div>--}}
 
     @extends('layouts.app')
 
     @section('content')
-
-        <div class="container">
-            <div class="card mb-3">
-                <div class="row g-0">
+            <div style="margin-bottom: 3%">
+                <div class="row">
                     <div class="col-md-12">
-                        <iframe id="player" width="1280" height="720"
-                                src="https://www.youtube.com/embed/lEShIYsdrZ4"
-                                title="Я не из тех, кто ксивой машет | ПрАкурор | 3 серия" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                        </iframe>
-                        <video id="video" width="720" height="560" autoplay muted></video>
-{{--
                         <video id="video" width="1.30" height="1.01" autoplay muted></video>
---}}
-
                     </div>
                 </div>
             </div>
+            <div class="ratio ratio-16x9" >
+                <div  id="player"></div>
+            </div>
             <div class="card mb-2">
                 <div class="card-body">
+
                     <div class="row">
                         <div class="col-md-8">
                              <h5 class="card-title">Я не из тех, кто ксивой машет | ПрАкурор | 3 серия</h5>
                         </div>
                     </div>
-
-                            <p>
-                            <form action="{{ url('/events/event-like') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="event_id"
-                                       value="{{ $event->id }}">
-                                <p class="card-img-bottom">
-                                    <button  type="submit" class="btn btn-block btn-primary float-right"><i class="fa fa-thumbs-up">Like {{ $event->likes_count }}</i> </button>
-
-                                </p>
-
-                            </form>
-                            </p>
-
+                    <form action="{{ url('/events/event-like') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="event_id"
+                               value="{{ $event->id }}">
+                        <p class="card-img-bottom">
+                            <button  type="submit" class="btn btn-block btn-primary float-right"><i class="fa fa-thumbs-up">Like {{ $event->likes_count }}</i> </button>
+                        </p>
+                    </form>
                 </div>
             </div>
 
@@ -100,7 +71,34 @@
                     <input type="submit" value="{{ __('messages.addComent') }}" class="btn btn-secondary">
                 </form>
             @endauth
-        </div>
     @endsection
 </body>
 </html>
+
+<script>
+    // Load the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // Replace the 'ytplayer' element with an <iframe> and
+    // YouTube player after the API code downloads.
+    var player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('player', {
+            playerVars: {
+                rel:0,
+                enablejsapi:0,
+                modestbranding: 1, showinfo: 0, ecver: 0
+
+            },
+
+            videoId: 'HdBYPLLaa-I',
+
+        });
+        player.modestbranding = 1;
+        console.log(player);
+    }
+
+</script>
