@@ -28,21 +28,6 @@ class DatabaseSeeder extends Seeder
         EventComment::factory()->count(15)->create();
         Organization::factory()->count(2)->create();
 
-        Category::factory()->create([
-            "name" => "Engineers",
-        ]);
-        Category::factory()->create([
-            "name" => "Visionaries",
-        ]);
-        Category::factory()->create([
-            "name" => "Entertainers",
-        ]);
-        Category::factory()->create([
-            "name" => "Warriors",
-        ]);
-        Category::factory()->create([
-            "name" => "Intellectuals",
-        ]);
 
         User::factory()->create([
             "name" => "Alice",

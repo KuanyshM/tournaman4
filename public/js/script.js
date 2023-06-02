@@ -14,26 +14,29 @@ class Faced {
         this.ct = currentTime
     }
     optimize(){
-        if(this.angry<0.0003){
-            delete this.angry;
+        if(this.a<0.0003){
+            delete this.a;
         }
-        if(this.disgusted<0.0003){
-            delete this.disgusted;
+        if(this.an<0.0003){
+            delete this.an;
         }
-        if(this.fearful<0.0003){
-            delete this.fearful;
+        if(this.d<0.0003){
+            delete this.d;
         }
-        if(this.happy<0.0003){
-            delete this.happy;
+        if(this.f<0.0003){
+            delete this.f;
         }
-        if(this.neutral<0.0003){
-            delete this.neutral;
+        if(this.h<0.0003){
+            delete this.h;
         }
-        if(this.sad<0.0003){
-            delete this.sad;
+        if(this.n<0.0003){
+            delete this.n;
         }
-        if(this.surprised<0.0003){
-            delete this.surprised;
+        if(this.s<0.0003){
+            delete this.s;
+        }
+        if(this.su<0.0003){
+            delete this.su;
         }
 
 
@@ -95,11 +98,29 @@ video.addEventListener('play', () => {
               let myFaced = new Faced(age,gender,genderProbability,angry,disgusted,fearful,happy,neutral,sad,surprised,state,currentTime);
               myFaced.optimize();
               listOfFaced.push(myFaced);
-              console.log(myFaced)
+             // console.log(myFaced)
           }
-          if(listOfFaced.length>=180){
-              console.log(listOfFaced);
+          if(listOfFaced.length>=10){
+              var myHeaders = new Headers();
+              myHeaders.append("Content-Type", "application/json");
+
+              var raw = JSON.stringify({
+                  "Tracktions": listOfFaced
+              });
+
+              var requestOptions = {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: 'follow'
+              };
+              var baseUrl = window.location.origin;
+              fetch(baseUrl+"/api/track", requestOptions)
+
+                  .catch(error => console.log('error', error));
+             // console.log(listOfFaced);
               listOfFaced = [];
+
 
           }
 

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Tournaman') }}</title>
+    <title>{{ config('app.name', 'Real reaction') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -26,7 +26,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top shadow  bg-white">
         <div class="container-fluid">
             <a class="navbar-brand text-black text-uppercase" href="{{ url('/') }}">
-               {{ config('app.name', 'Tournaman') }}
+               {{ config('app.name', 'Real reaction') }}
             </a>
 
 
@@ -37,7 +37,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+{{--                    <li class="nav-item">
                         <a href="{{ url('/teams') }}"
                            class="nav-link text-black">
                             Teams
@@ -49,8 +49,9 @@
                             Rankings
                         </a>
                     </li>
+                    --}}
                     <li class="nav-item">
-                        <a href="{{ url('/events/add') }}"
+                        <a href="{{ url('/events/addVideo') }}"
                            class="nav-link text-black">
                             {{ __('messages.Add Tournament') }}
                         </a>
@@ -67,7 +68,9 @@
                             <a class="nav-link text-black dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->name }}</a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown01">
                                 <li><a class="dropdown-item" href="{{ url("/profile") }}">Profile</a></li>
+{{--
                                 <li><a class="dropdown-item" href="{{ url("/events/my") }}">My Tournaments</a></li>
+--}}
                             @can('settings-list')
                                     <li><a class="dropdown-item" href="{{ url("/settings") }}">Settings</a></li>
                                 @endcan
@@ -114,7 +117,7 @@
             </div>
 
             <div class="d-flex justify-content-between py-4 my-4 border-top">
-                <p>&copy; <?php echo date("Y"); ?> Tournaman,  {{__('messages.All rights reserved')}}.</p>
+                <p>&copy; <?php echo date("Y"); ?> Real reaction,  {{__('messages.All rights reserved')}}.</p>
                 <ul class="list-unstyled d-flex">
                     <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
                     <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>

@@ -22,12 +22,12 @@ class UpdateAndAddScopeToEventsTable extends Migration
 
             $table->string("address_announce",250)->nullable();
 
-            $table->string("schedule",2000);
-            $table->string("rules",2000);
+            $table->string("schedule",2000)->nullable();
+            $table->string("rules",2000)->nullable();
 
-            $table->string("prize",500);
+            $table->string("prize",500)->nullable();
 
-            $table->string("registration",500);
+            $table->string("registration",500)->nullable();
             $table->integer("eventType")->default("1");
 
 

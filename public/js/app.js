@@ -268,6 +268,44 @@ function tournamentValidation(){
 
 
 }
+function videoValidation(){
+    var title = document.getElementById("title");
+    var body = document.getElementById("body");
+    var parentCategory = document.getElementById("parentCategory");
+    var subCategory = document.getElementById("subCategory");
+    var link = document.getElementById("link");
+
+    if(title.value.length==0){
+        valiAlert("Название");
+        return;
+    }
+
+    if(parentCategory.value==0){
+        valiAlert("Жанр");
+        return;
+
+    }
+    if(subCategory.value==0){
+        valiAlert("Категория");
+        return;
+
+    }
+
+    if(body.value.length==0){
+        valiAlert("Описание");
+        return;
+
+    }
+    if(link.value.length==0){
+        valiAlert("Ссылка");
+        return;
+
+    }
+    valiAlertClose();
+    var form = document.getElementById("videoForm");
+    console.log(form)
+    form.submit();
+}
 function valiAlert(str){
     window.scrollTo(0, 0);
     var valiAlert = document.getElementById("valiAlert");
@@ -278,3 +316,71 @@ function valiAlertClose(){
     var valiAlert = document.getElementById("valiAlert");
     valiAlert.style.display = "none";
 }
+
+function getYouTubeVideoId() {
+    urlVideo = document.getElementById("linkTemp").value;
+    videoImage = document.getElementById("videoImage");
+    videoIDInput = document.getElementById("link");
+
+
+    videoID = "";
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = urlVideo.match(regExp);
+    videoID = (match&&match[7].length==11)? match[7] : false;
+
+    if (videoID) {
+
+        if(checkResponseStatus(videoID)){
+            photoURL = 'https://i.ytimg.com/vi/'+videoID+'/hqdefault.jpg'
+            videoImage.setAttribute("src",photoURL)
+            videoIDInput.value = videoID
+            valiAlertClose();
+
+
+            return videoID;
+        }
+    }
+    videoImage.setAttribute("src","")
+    videoIDInput.value = ""
+
+    valiAlert("Неправильная ссылка")
+
+   return videoID;
+}
+
+async function checkResponseStatus(videoID) {
+    var baseUrl = window.location.origin;
+    const url = baseUrl+"/api/checkVideo";
+    try {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "videoID": videoID
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(url, requestOptions)
+            .then(response => response.text())
+         //   .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+
+
+
+    } catch (error) {
+        console.error('Error checking video availability:', error.message);
+        console.log('The URL is invalid or the video is not available.');
+        return false
+
+    }
+    return false
+
+}
+

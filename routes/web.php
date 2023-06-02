@@ -50,6 +50,7 @@ Route::get('/', [
 
 Route::get('/articles/add', [ArticleController::class, 'add']);
 Route::get('/events/add', [EventController::class, 'add']);
+Route::get('/events/addVideo', [EventController::class, 'addVideo']);
 
 Route::post('/articles/add', [
     ArticleController::class,
@@ -58,6 +59,10 @@ Route::post('/articles/add', [
 Route::post('/events/add', [
     EventController::class,
     'create',
+]);
+Route::post('/events/createVideo', [
+    EventController::class,
+    'createVideo',
 ]);
 Route::get('/events/edit/{id}', [
     EventController::class,

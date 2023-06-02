@@ -16,7 +16,7 @@ return [
     'title' => 'Тема на русском',
     'slectLanguage' => 'Выберите язык',
     'All rights reserved' => 'Все права защищены',
-    'Add Tournament' => 'Добавить турнир',
+    'Add Tournament' => 'Добавить',
     'Logout' => 'Выход',
     'Category' => 'Категория',
     'View Detail' => 'Подробнее',

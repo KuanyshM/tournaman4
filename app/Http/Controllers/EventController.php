@@ -20,6 +20,7 @@ class EventController extends Controller
     {
         $this->middleware('auth')->except(['index', 'detail','search','category']);
         $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
+       // $this->middleware('permission:event-create', ['only' => ['create','update','add']]);
     }
 
     public function index()
@@ -89,6 +90,18 @@ class EventController extends Controller
             'subCategories' => $subCategories
         ]);
     }
+    public function addVideo()
+    {
+        $data =  Category::where('parent_id','=',0)->get();
+        $author = User::find(auth()->user()->id);
+        $subCategories = Category::where('parent_id','!=',0)->get();
+
+        return view('events.addVideo', [
+            'categories' => $data,
+            'author' => $author,
+            'subCategories' => $subCategories
+        ]);
+    }
 
     public function create()
     {
@@ -142,6 +155,36 @@ class EventController extends Controller
         $event->prize = request()->prize;
         $event->registration = request()->registration_info;
         $event->eventType = request()->eventType;
+
+
+        $event->save();
+
+        return redirect('/events');
+
+    }
+
+    public function createVideo()
+    {
+        $validator = validator(request()->all(), [
+            'title' => 'required',
+            'body' => 'required',
+            'link' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $event= new Event;
+        $event->title = request()->title;
+        $event->body = request()->body;
+        $event->category_id = request()->category_id;
+
+        $event->user_id = auth()->user()->id;
+
+        $event->link = request()->link;
+
 
 
         $event->save();

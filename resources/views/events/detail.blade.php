@@ -27,7 +27,7 @@
 
                     <div class="row">
                         <div class="col-md-8">
-                             <h5 class="card-title">Я не из тех, кто ксивой машет | ПрАкурор | 3 серия</h5>
+                             <h5 class="card-title">{{ $event->title }}</h5>
                         </div>
                     </div>
                     <form action="{{ url('/events/event-like') }}" method="post">
@@ -94,7 +94,7 @@
 
             },
 
-            videoId: 'HdBYPLLaa-I',
+            videoId: '{{ $event->link }}',
 
         });
         player.modestbranding = 1;
