@@ -1,5 +1,5 @@
 class Faced {
-    constructor(age, gender,genderProbability,angry,disgusted,fearful,happy,neutral,sad,surprised,state,currentTime) {
+    constructor(age, gender,genderProbability,angry,disgusted,fearful,happy,neutral,sad,surprised,state,currentTime,event_id,session_id) {
         this.a = age;
         this.g = gender;
         this.gp = genderProbability;
@@ -12,6 +12,8 @@ class Faced {
         this.su = surprised;
         this.st = state;
         this.ct = currentTime
+        this.ei = event_id
+        this.se = session_id
     }
     optimize(){
         if(this.a<0.0003){
@@ -95,7 +97,7 @@ video.addEventListener('play', () => {
 
 
           if(player.getPlayerState() && (player.getPlayerState()==1 || player.getPlayerState()==3)){
-              let myFaced = new Faced(age,gender,genderProbability,angry,disgusted,fearful,happy,neutral,sad,surprised,state,currentTime);
+              let myFaced = new Faced(age,gender,genderProbability,angry,disgusted,fearful,happy,neutral,sad,surprised,state,currentTime,EventId,SessionID);
               myFaced.optimize();
               listOfFaced.push(myFaced);
              // console.log(myFaced)
@@ -107,6 +109,7 @@ video.addEventListener('play', () => {
               var raw = JSON.stringify({
                   "Tracktions": listOfFaced
               });
+             // console.log(raw)
 
               var requestOptions = {
                   method: 'POST',

@@ -18,6 +18,9 @@ class CreateTrackingsTable extends Migration
         Schema::create('trackings', function (Blueprint $table) {
             $table->id();
             $table->integer('age')->default(0);
+            $table->integer('event_id');
+            $table->integer('session_id')->default(0);
+            $table->integer('user_id')->default(0);
             $table->string('gender')->default(0);
             $table->float('genderProbability')->default(0);
             $table->float('angry')->default(0);

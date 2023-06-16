@@ -5,6 +5,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\EventCommentController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\UserController;
@@ -106,6 +107,22 @@ Route::get('/profile',
 Route::get('/events/my', [
     EventController::class,
     'myevents',
+]);
+Route::get('/events/myVideos', [
+    EventController::class,
+    'myVideos',
+]);
+Route::get('/events/statistics/{eventId}', [
+    StatisticsController::class,
+    'statisticsEvent',
+]);
+Route::get('/events/statistics/{eventId}/sessionsList', [
+    StatisticsController::class,
+    'sessionsList',
+]);
+Route::get('/events/statistics/{eventId}/session/{sessionId}', [
+    StatisticsController::class,
+    'statistics',
 ]);
 Route::get('/events/participants/{id}', [
     EventController::class,

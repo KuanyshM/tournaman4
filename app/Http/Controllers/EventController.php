@@ -8,6 +8,7 @@ use App\Models\EventParticipation;
 use App\Models\Organization;
 use App\Models\ParticipationStatus;
 use App\Models\Team;
+use App\Models\Tracking;
 use App\Models\User;
 use App\Models\UserTeam;
 use Illuminate\Http\Request;
@@ -256,6 +257,15 @@ class EventController extends Controller
         return redirect('/events')->with('info', 'Article deleted');
     }
     public function myevents()
+    {
+        $data = Event::withCount('likes')->withCount('participations')->where('user_id',auth()->user()->id)->latest()->paginate(5);
+        $categories = Category::where('parent_id','=',0)->get();
+        return view('events.index',[
+            'events' => $data,
+            'categories' => $categories,
+        ]);
+    }
+    public function myVideos()
     {
         $data = Event::withCount('likes')->withCount('participations')->where('user_id',auth()->user()->id)->latest()->paginate(5);
         $categories = Category::where('parent_id','=',0)->get();

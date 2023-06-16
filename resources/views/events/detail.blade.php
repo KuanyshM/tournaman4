@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<script>
+    const EventId = "{{$event->id}}";
+    const SessionID = "<?php echo time(); ?>";
+</script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +34,13 @@
                              <h5 class="card-title">{{ $event->title }}</h5>
                         </div>
                     </div>
+                    @if(auth()->user()->id == $event->user_id)
+                        <div class="row">
+                            <div class="col-md-8">
+                                <a href="{{url("events/statistics")}}/{{$event->id}}"><h5 class="card-title">Статистика</h5></a>
+                            </div>
+                        </div>
+                    @endif
                     <form action="{{ url('/events/event-like') }}" method="post">
                         @csrf
                         <input type="hidden" name="event_id"

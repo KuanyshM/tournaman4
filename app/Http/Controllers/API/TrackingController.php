@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Tracking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class TrackingController extends Controller
 {
@@ -77,6 +79,12 @@ class TrackingController extends Controller
         foreach ($trackingData["Tracktions"] as $track){
 
             $tracking = new Tracking();
+            if(isset( $track["ei"])){
+                $tracking->event_id = $track["ei"];
+            }
+            if(isset( $track["se"])){
+                $tracking->session_id = $track["se"];
+            }
             if(isset( $track["a"])){
                 $tracking->age = $track["a"];
             }
@@ -114,6 +122,10 @@ class TrackingController extends Controller
                 $tracking->currentTime = $track["ct"];
             }
             $tracking->ip =$ip;
+            if (Auth::check()){
+                $tracking->user_id = auth()->user()->id;
+
+            }
             $tracking->save();
         }
 
@@ -124,7 +136,7 @@ class TrackingController extends Controller
         // Return a response
         return response()->json([
             'message' => 'Tracking data received successfully.',
-            'data' => $trackingData,
+            'data' => '',
         ]);
     }
     public function checkVideo(Request $request){
@@ -152,4 +164,5 @@ class TrackingController extends Controller
             'data' => $httpcode,
         ]);
     }
+    public function showListofSessions(Request $request){}
 }
