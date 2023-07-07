@@ -19,7 +19,11 @@
             <div style="margin-bottom: 3%">
                 <div class="row">
                     <div class="col-md-12">
+{{--
                         <video id="video" width="1.30" height="1.01" autoplay muted></video>
+--}}
+                        <video id="video" width="1300" height="1010" autoplay muted></video>
+
                     </div>
                 </div>
             </div>
