@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\TrackingController;
+use App\Http\Controllers\API\VideoController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -16,6 +17,7 @@ Route::post('/search', [SearchController::class,'search']);
 Route::post('/searchCity', [SearchController::class,'searchCity']);
 Route::post('/track', [TrackingController::class,'track']);
 Route::post('/checkVideo', [TrackingController::class,'checkVideo']);
+Route::get('/videos', [VideoController::class,'index']);
 
 
 
