@@ -19,10 +19,10 @@
             <div style="margin-bottom: 3%">
                 <div class="row">
                     <div class="col-md-12">
-{{--
                         <video id="video" width="1.30" height="1.01" autoplay muted></video>
---}}
+{{--
                         <video id="video" width="1300" height="1010" autoplay muted></video>
+--}}
 
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                              <h5 class="card-title">{{ $event->title }}</h5>
                         </div>
                     </div>
-                    @if(auth()->user()->id == $event->user_id)
+                    @if(auth()->check() && auth()->user()->id == $event->user_id)
                         <div class="row">
                             <div class="col-md-8">
                                 <a href="{{url("events/statistics")}}/{{$event->id}}"><h5 class="card-title">Статистика</h5></a>

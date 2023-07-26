@@ -42,6 +42,10 @@ Route::get('/events/detail/{id}', [
     EventController::class,
     'detail',
 ]);
+Route::get('/events/presentation/{id}', [
+    EventController::class,
+    'presentation',
+]);
 Route::get('/', [
     ArticleController::class, 'index'
 ]);
