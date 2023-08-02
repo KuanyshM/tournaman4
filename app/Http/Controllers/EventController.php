@@ -19,7 +19,7 @@ class EventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'detail','search','category']);
+        $this->middleware('auth')->except(['index', 'detail','search','category','presentation']);
         $this->middleware('permission:event-delete', ['only' => ['destroy','delete']]);
        // $this->middleware('permission:event-create', ['only' => ['create','update','add']]);
     }
@@ -59,30 +59,9 @@ class EventController extends Controller
             'ipAddress' => $ipAddress,
         ]);
     }
-    public function presentation($id)
+    public function presentation()
     {
-        $data = Event::withCount('likes')->withCount('participations')->with('user')->find($id);
-        if(is_null($data)){
-            $data = Event::latest()->paginate(3);
-            return view('events.index',[
-                'events' => $data
-            ]);
-        }
-        $organization = Organization::withCount('followers')->find($data->user->organization_id);
-        $myTeams = array();
-        if(auth()->check()){
-            $myTeams = UserTeam::where('from_user_id','=',auth()->user()->id)
-                ->where('status_id','=',2)->get();
-        }
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
-
-
-        return view('events.presentation',[
-            'event' => $data,
-            'organization' => $organization,
-            'myTeams' => $myTeams,
-            'ipAddress' => $ipAddress,
-        ]);
+        return view('events.presentation',[]);
     }
     public function edit($id)
     {

@@ -42,7 +42,7 @@ Route::get('/events/detail/{id}', [
     EventController::class,
     'detail',
 ]);
-Route::get('/events/presentation/{id}', [
+Route::get('/events/presentation/', [
     EventController::class,
     'presentation',
 ]);
